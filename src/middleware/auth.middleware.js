@@ -6,7 +6,8 @@ export function authenticate(req, res, next) {
 
         if(!authHeader || !authHeader.startsWith("Bearer ")){
             return res.status(401).json({
-                message: "Unauthorized access";
+                success: false,
+                message: "Unauthorized access"
             });
         }
 
@@ -17,6 +18,9 @@ export function authenticate(req, res, next) {
 
         next();
     } catch (error) {
-        return res.status(401).json({ message: "Invalid token" });
+        return res.status(401).json({ 
+            success: false,
+            message: "Invalid token" 
+        });
     }
 }

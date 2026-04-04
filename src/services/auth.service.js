@@ -5,7 +5,7 @@ export async function registerUser(data) {
     const { name, email, password, role } = data;
 
     // check if user exist
-    const existingUser = await prisma.user.findUnque({ where: { email } });
+    const existingUser = await prisma.user.findUnique({ where: { email } });
 
     // if user exist throw an error
     if(existingUser) {

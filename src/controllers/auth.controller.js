@@ -20,7 +20,7 @@ export async function register(req, res) {
             success: false,
             message: error.message
         });
-        
+ 
     }
 }
 
