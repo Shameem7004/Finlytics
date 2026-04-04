@@ -3,6 +3,7 @@ import cors from "cors";
 
 import authRoutes from "./routes/auth.route.js";
 import testRoutes from "./dev/test.routes.js";
+import recordRoutes from "./routes/record.routes.js";
 
 const app = express();
 
@@ -18,5 +19,6 @@ app.get("/", (req, res) => {
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/test", testRoutes);
+app.use("/api/records", recordRoutes);
 
 export default app;
