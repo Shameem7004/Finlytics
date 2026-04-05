@@ -2,6 +2,7 @@ import express from "express";
 import * as recordController from "../controllers/record.controller.js";
 import { authenticate } from "../middleware/auth.middleware.js";
 import { authorizeRoles } from "../middleware/role.middleware.js";
+import { validateRequest, createRecordSchema, updateRecordSchema } from "../validation/index.js";
 
 const router = express.Router();
 
@@ -11,6 +12,7 @@ router.post(
     "/",
     authenticate,
     authorizeRoles("ADMIN"),
+    validateRequest(createRecordSchema),
     recordController.create
 );
 
@@ -35,6 +37,7 @@ router.patch(
     "/:id",
     authenticate,
     authorizeRoles("ADMIN"),
+    validateRequest(updateRecordSchema),
     recordController.update
 );
 
