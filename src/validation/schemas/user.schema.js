@@ -10,13 +10,13 @@ export const registerSchema = Joi.object({
         .valid(Joi.ref("password"))
         .required()
         .strip()
-        .message({
+        .messages({
             "any.only": "Password do not match"
         }),
 
     role: Joi.string()
         .valid("ADMIN", "ANALYST", "VIEWER")
-        .message({
+        .messages({
              "any.only": "Role must be one of ADMIN, ANALYST, or VIEWER"
         })
 
