@@ -1,15 +1,9 @@
-import {
-    createRecord,
-    getRecords,
-    getRecordById,
-    updateRecord, 
-    deleteRecord
-} from "../services/record.service.js";
+import * as recordService from "../services/record.service.js";
 
 // create record
 export async function create(req, res) {
     try {
-        const record = await createRecord(req.body, req.user.id);
+        const record = await recordService.createRecord(req.body, req.user.id);
 
         res.status(201).json({
             success: true,
@@ -26,7 +20,7 @@ export async function create(req, res) {
 // get all records
 export async function getAll(req, res) {
     try {
-        const records = await getRecords(req.query);
+        const records = await recordService.getRecords(req.query);
 
         res.status(200).json({
             success: true,
@@ -44,7 +38,7 @@ export async function getAll(req, res) {
 // get a record by id
 export async function getOne(req, res){
     try {
-        const record = await getRecordById(req.params.id);
+        const record = await recordService.getRecordById(req.params.id);
 
         res.status(200).json({
             success: true,
@@ -61,7 +55,7 @@ export async function getOne(req, res){
 // update record
 export async function update(req, res){
     try {
-        const record = await updateRecord(req.params.id, req.body);
+        const record = await recordService.updateRecord(req.params.id, req.body);
 
         res.status(200).json({
             success: true,
@@ -79,7 +73,7 @@ export async function update(req, res){
 // delete/remove the record
 export async function remove(req, res){
     try {
-        await deleteRecord(req.params.id);
+        await recordService.deleteRecord(req.params.id);
         
         res.status(200).json({
             success: true,
