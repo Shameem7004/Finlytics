@@ -4,14 +4,16 @@ import cors from "cors";
 import authRoutes from "./routes/auth.route.js";
 import testRoutes from "./dev/test.routes.js";
 import recordRoutes from "./routes/record.routes.js";
-import dashboardRoutes from "./routes/dashboard.routes.js"
+import dashboardRoutes from "./routes/dashboard.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import { apiRateLimiter } from "./middleware/rateLimit.middleware.js";
 
 const app = express();
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
+app.use("/api", apiRateLimiter);
 
 // health check route of the server
 app.get("/", (req, res) => {

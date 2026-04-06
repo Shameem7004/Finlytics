@@ -24,7 +24,7 @@ export function parseSorting({ sortBy = "date", sortOrder = "desc" }) {
 }
 
 // Utility function to build record filter for search functionality
-export function buildRecordFilter({ type, category, startDate, endDate }) {
+export function buildRecordFilter({ type, category, startDate, endDate, search }) {
     const where = { isDeleted: false };
 
     if (type) where.type = type;
@@ -34,6 +34,13 @@ export function buildRecordFilter({ type, category, startDate, endDate }) {
         where.date = {};
         if (startDate) where.date.gte = new Date(startDate);
         if (endDate) where.date.lte = new Date(endDate);
+    }
+
+    if (search) {
+        where.OR = [
+            { category: { contains: search, mode: "insensitive" } },
+            { description: { contains: search, mode: "insensitive" } }
+        ];
     }
 
     return where;
