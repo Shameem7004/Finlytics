@@ -19,7 +19,7 @@ export const validateRequest = (schema, property = "body") => {
 
 
         // formatting of validation error
-        const errorDetails = error.datails.map( (detail) => ({
+        const errorDetails = error.details.map( (detail) => ({
             path: detail.path.join("."),
             message: detail.message
         }) );
