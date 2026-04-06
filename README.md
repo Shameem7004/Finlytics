@@ -14,6 +14,7 @@ The application supports:
 
 - User registration and login
 - Role-based access control for Admin, Analyst, and Viewer users
+- User management, including active/inactive status and role updates
 - Financial record creation, listing, updating, and soft deletion
 - Filtering, pagination, and sorting for record queries
 - Dashboard summary endpoints for analytics and reporting
@@ -121,7 +122,8 @@ Role-based access control is enforced through middleware.
 ### Permissions implemented
 
 - ADMIN can create, update, and delete records
-- ADMIN can access all dashboard endpoints
+- ADMIN can manage users, including role and active status changes
+- ADMIN, ANALYST, and VIEWER can access dashboard endpoints
 - ANALYST can view records and dashboard insights
 - VIEWER can only view allowed data
 
@@ -151,6 +153,8 @@ Request validation is handled with Joi schemas.
 
 - User registration validation
 - Login validation
+- Password change validation
+- User update validation
 - Record creation validation
 - Record update validation
 
@@ -175,6 +179,7 @@ The dashboard layer is designed for summary-level reporting rather than only CRU
 - Net balance
 - Category-wise breakdown
 - Monthly trends
+- Recent activity
 
 These are computed using raw SQL through Prisma for efficient aggregation.
 
@@ -190,12 +195,32 @@ The record service supports:
 - Filtering by type, category, and date range
 - Pagination and sorting for list queries
 
+## User Management Features
+
+The user service supports:
+
+- Fetching all users with pagination, sorting, and search
+- Fetching a single user by id
+- Viewing the current authenticated profile
+- Updating a user's role or active status
+- Deactivating a user
+- Changing password for the current user
+
 ## API Endpoints
 
 ### Authentication
 
 - POST /api/auth/register
 - POST /api/auth/login
+
+### Users
+
+- GET /api/users
+- GET /api/users/:id
+- GET /api/users/me
+- PATCH /api/users/:id
+- PATCH /api/users/change-password
+- DELETE /api/users/:id
 
 ### Records
 
@@ -210,6 +235,7 @@ The record service supports:
 - GET /api/dashboard/summary
 - GET /api/dashboard/categories
 - GET /api/dashboard/trends
+- GET /api/dashboard/recent
 
 ### Development test routes
 
@@ -223,13 +249,13 @@ The record service supports:
 
 ```json
 {
-	"success": true,
-	"data": {
-		"id": 1,
-		"amount": 5000,
-		"type": "INCOME",
-		"category": "Salary"
-	}
+  "success": true,
+  "data": {
+    "id": 1,
+    "amount": 5000,
+    "type": "INCOME",
+    "category": "Salary"
+  }
 }
 ```
 
@@ -237,8 +263,8 @@ The record service supports:
 
 ```json
 {
-	"success": false,
-	"message": "Unauthorized"
+  "success": false,
+  "message": "Unauthorized"
 }
 ```
 
