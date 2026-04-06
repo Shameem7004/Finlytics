@@ -29,6 +29,7 @@ export async function registerUser(data) {
     return user;
 }
 
+// login user
 export async function loginUser(data){
     const {email, password} = data;
 

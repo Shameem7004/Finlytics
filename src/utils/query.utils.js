@@ -1,4 +1,4 @@
-// Utility functions for parsing query parameters and building filters
+// Utility function to parse pagination parameters
 export function parsePagination({ page = 1, size = 10 }) {
     const pageNumber = Math.max(1, Number(page) || 1);
     const sizeNumber = Math.max(1, Number(size) || 10);
@@ -11,7 +11,7 @@ export function parsePagination({ page = 1, size = 10 }) {
     };
 }
 
-// Utility function to parse sorting parameters
+// Utility function to parse sorting parameters for records
 const allowedSortFields = ["date", "amount", "category"];
 export function parseSorting({ sortBy = "date", sortOrder = "desc" }) {
     const safeSortBy = allowedSortFields.includes(sortBy) ? sortBy : "date";
@@ -23,7 +23,7 @@ export function parseSorting({ sortBy = "date", sortOrder = "desc" }) {
     };
 }
 
-// Utility function to build Prisma filter object based on query parameters
+// Utility function to build record filter for search functionality
 export function buildRecordFilter({ type, category, startDate, endDate }) {
     const where = { isDeleted: false };
 
