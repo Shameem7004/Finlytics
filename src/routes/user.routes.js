@@ -19,6 +19,13 @@ router.get(
     userController.getUsers
 );
 
+// Get current user profile -> All Authenticated Users (VIEWER, ANALYST, ADMIN)
+router.get(
+    "/me", 
+    authenticate, 
+    userController.getMe
+);
+
 // Get single user by ID -> Admin + Analyst
 router.get(
     "/:id",
@@ -28,11 +35,13 @@ router.get(
     userController.getUserById
 );
 
-// Get current user profile -> All Authenticated Users (VIEWER, ANALYST, ADMIN)
-router.get(
-    "/me", 
-    authenticate, 
-    userController.getMe
+
+// Change password -> All Authenticated Users
+router.patch(
+    "/change-password",
+    authenticate,
+    validateRequest(changePasswordSchema),
+    userController.changePassword
 );
 
 // Update user -> Admin Only
@@ -43,14 +52,6 @@ router.patch(
     validateRequest(userIdParamSchema, "params"), 
     validateRequest(updateUserSchema),
     userController.updateUser
-);
-
-// Change password -> All Authenticated Users
-router.patch(
-    "/change-password",
-    authenticate,
-    validateRequest(changePasswordSchema),
-    userController.changePassword
 );
 
 // Deactivate user -> Admin Only
