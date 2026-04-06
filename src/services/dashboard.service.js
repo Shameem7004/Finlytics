@@ -4,8 +4,8 @@ import prisma from "../config/prisma.js";
 export async function getSummary(){
     const result = await prisma.$queryRaw`
         SELECT
-            SUM(CASE WHEN type='INCOME' THEN amount ELSE 0 END) AS "totalIncome",
-            SUM(CASE WHEN type='EXPENSE' THEN amount ELSE 0 END) AS "totalExpense"
+            COALESCE(SUM(CASE WHEN type='INCOME' THEN amount ELSE 0 END), 0) AS "totalIncome",
+            COALESCE(SUM(CASE WHEN type='EXPENSE' THEN amount ELSE 0 END), 0) AS "totalExpense"
         FROM "Record"
         WHERE "isDeleted" = false;
 
@@ -24,8 +24,8 @@ export async function getSummary(){
 export async function getCategoryBreakdown(){
     const result = await prisma.$queryRaw`
         SELECT category,
-            SUM(CASE WHEN type='INCOME' THEN amount ELSE 0 END) as income,
-            SUM(CASE WHEN type='EXPENSE' THEN amount ELSE 0 END) as expense
+            COALESCE(SUM(CASE WHEN type='INCOME' THEN amount ELSE 0 END), 0) as income,
+            COALESCE(SUM(CASE WHEN type='EXPENSE' THEN amount ELSE 0 END), 0) as expense
         FROM "Record"
         WHERE "isDeleted" = false
         GROUP BY category
@@ -45,8 +45,8 @@ export async function getMonthlyTrends(){
     const result = await prisma.$queryRaw`
         SELECT 
             DATE_TRUNC('month', date) AS month,
-            SUM(CASE WHEN type='INCOME' THEN amount ELSE 0 END) AS income,
-            SUM(CASE WHEN type='EXPENSE' THEN amount ELSE 0 END) AS expense
+            COALESCE(SUM(CASE WHEN type='INCOME' THEN amount ELSE 0 END), 0) AS income,
+            COALESCE(SUM(CASE WHEN type='EXPENSE' THEN amount ELSE 0 END), 0) AS expense
         FROM "Record"
         WHERE "isDeleted" = false
         GROUP BY month
