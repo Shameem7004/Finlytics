@@ -41,7 +41,7 @@ export function buildRecordFilter({ type, category, startDate, endDate }) {
 
 // Utility function to build user filter for search functionality
 export function buildUserFilter({ search }) {
-    const where = {};
+    const where = { isActive: true };
 
     if (search) {
         where.OR = [
