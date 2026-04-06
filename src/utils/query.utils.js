@@ -38,3 +38,29 @@ export function buildRecordFilter({ type, category, startDate, endDate }) {
 
     return where;
 }
+
+// Utility function to build user filter for search functionality
+export function buildUserFilter({ search }) {
+    const where = {};
+
+    if (search) {
+        where.OR = [
+            { name: { contains: search, mode: "insensitive" } },
+            { email: { contains: search, mode: "insensitive" } }
+        ];
+    }
+
+    return where;
+}
+
+// Utility function to parse sorting parameters for users
+const allowedUserSortFields = ["id", "createdAt", "name", "email"];
+export function parseUserSorting({ sortBy = "id", sortOrder = "asc" }) {
+    const safeSortBy = allowedUserSortFields.includes(sortBy) ? sortBy : "id";
+    const safeSortOrder = sortOrder.toLowerCase() === "desc" ? "desc" : "asc";
+
+    return {
+        safeSortBy,
+        safeSortOrder
+    };
+}
