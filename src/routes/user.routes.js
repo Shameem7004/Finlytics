@@ -5,7 +5,9 @@ import { authorizeRoles } from "../middleware/role.middleware.js";
 import {
     validateRequest,
     updateUserSchema,
-    userIdParamSchema } from "../validation/index.js";
+    userIdParamSchema,
+    changePasswordSchema
+} from "../validation/index.js";
 
 const router = express.Router();
 
@@ -41,6 +43,14 @@ router.patch(
     validateRequest(userIdParamSchema, "params"), 
     validateRequest(updateUserSchema),
     userController.updateUser
+);
+
+// Change password -> All Authenticated Users
+router.patch(
+    "/change-password",
+    authenticate,
+    validateRequest(changePasswordSchema),
+    userController.changePassword
 );
 
 // Deactivate user -> Admin Only

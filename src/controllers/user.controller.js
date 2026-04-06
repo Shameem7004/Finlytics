@@ -17,6 +17,35 @@ export async function getUsers(req, res) {
     }
 }
 
+// Get single user by ID -> Admin + Analyst
+export async function getUserById(req, res) {
+    try {
+        const user = await userService.getUserById(req.params.id);
+
+        res.json({
+            success: true,
+            data: user
+        });
+    } catch (err) {
+        res.status(404).json({
+            success: false,
+            message: err.message
+        });
+    }
+}
+
+// Get current user profile -> All Authenticated Users
+export async function getMe(req, res) {
+    try {
+        res.json({
+            success: true,
+            data: req.user
+        });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+}
+
 // Update user role or status
 export async function updateUser(req, res) {
     try {
@@ -51,14 +80,25 @@ export async function deactivateUser(req, res) {
     }
 }
 
-// Get current user profile -> All Authenticated Users
-export async function getMe(req, res) {
+// Change password (user only)
+export async function changePassword(req, res) {
     try {
+        const { oldPassword, newPassword } = req.body;
+
+        await userService.changePassword(
+            req.user.id,
+            oldPassword,
+            newPassword
+        );
+
         res.json({
             success: true,
-            data: req.user
+            message: "Password updated successfully"
         });
     } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
+        res.status(400).json({
+            success: false,
+            message: err.message
+        });
     }
 }

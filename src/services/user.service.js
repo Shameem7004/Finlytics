@@ -46,6 +46,27 @@ export async function getAllUsers(filters) {
     };
 }
 
+// Get user by ID (Admin and analyst)
+export async function getUserById(id) {
+    const user = await prisma.user.findUnique({
+        where: { id: Number(id) },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+            isActive: true,
+            createdAt: true
+        }
+    });
+
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    return user;
+}
+
 // Update user's role or status (admin only)
 export async function updateUser(id, data, currentUserId) {
     if (Number(id) === currentUserId && data.role) {
