@@ -61,19 +61,19 @@ export async function getRecords(filters){
     const records = await prisma.record.findMany({
         where,
         skip: Number(skip),
-        take: Number(size),
+        take: sizeNumber,
         orderBy: {
             [safeSortBy]: safeSortOrder
         }
     });
 
-    const totalPages = Math.ceil(totalRecords / size);
+    const totalPages = Math.ceil(totalRecords / sizeNumber);
 
     return {
         data: records,
         pagination: {
             totalRecords,
-            currentPage: Number(page),
+            currentPage: pageNumber,
             totalPages,
             nextPage: page < totalPages ? Number(page) + 1 : null,
             prevPage: page > 1 ? Number(page) - 1 : null
@@ -103,7 +103,7 @@ export async function updateRecord(id, data){
     if(!existing || existing.isDeleted){
         throw new Error("Record not found");
     }
-    
+
     // If date is being updated, convert it to a Date object
     if(data.date){
         data.date = new Date(data.date);
