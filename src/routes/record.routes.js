@@ -16,11 +16,11 @@ router.post(
     recordController.create
 );
 
-// get all -> Analyst + Viewer + Admin
+// get all -> Analyst + Admin
 router.get(
     "/",
     authenticate,
-    authorizeRoles("ADMIN", "ANALYST", "VIEWER"),
+    authorizeRoles("ADMIN", "ANALYST"),
     recordController.getAll
 );
 
@@ -28,7 +28,7 @@ router.get(
 router.get(
     "/:id",
     authenticate,
-    authorizeRoles("ADMIN", "ANALYST", "VIEWER"),
+    authorizeRoles("ADMIN", "ANALYST"),
     recordController.getOne
 )
 
