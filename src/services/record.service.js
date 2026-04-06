@@ -42,6 +42,15 @@ export async function getRecords(filters){
         take: sizeNumber,
         orderBy: {
             [safeSortBy]: safeSortOrder
+        },
+        include: {
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true
+                }
+            }
         }
     });
 
@@ -62,7 +71,16 @@ export async function getRecords(filters){
 // Get a record by id
 export async function getRecordById(id){
     const record = await prisma.record.findUnique({
-        where: { id: Number(id)}
+        where: { id: Number(id)},
+        include: {
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true
+                }
+            }
+        }
     });
 
     if(!record || record.isDeleted){
