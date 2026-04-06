@@ -60,3 +60,14 @@ export async function getMonthlyTrends(){
         netBalance: Number(row.income) - Number(row.expense)
     }));
 }
+
+// recent activity
+export async function getRecentActivity(){
+    return await prisma.$queryRaw`
+        SELECT id, amount, type, category, date
+        FROM "Record"
+        WHERE "isDeleted" = false
+        ORDER BY date DESC
+        LIMIT 10;
+    `;
+}

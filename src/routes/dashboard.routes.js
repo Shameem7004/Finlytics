@@ -6,7 +6,7 @@ import { authorizeRoles } from "../middleware/role.middleware.js";
 const router = express.Router();
 
 
-// dashboard is visible for all
+// summary is visible for all
 router.get(
     "/summary",
     authenticate,
@@ -14,6 +14,7 @@ router.get(
     dashboardController.getSummary
 );
 
+// category breakdown is visible for all
 router.get(
     "/categories",
     authenticate,
@@ -21,11 +22,20 @@ router.get(
     dashboardController.getCategories
 );
 
+// trends is visible for all
 router.get(
     "/trends",
     authenticate,
     authorizeRoles("ADMIN", "ANALYST", "VIEWER"),
     dashboardController.getTrends
+);
+
+// recent activity is visible for all
+router.get(
+    "/recent",
+    authenticate,
+    authorizeRoles("ADMIN", "ANALYST", "VIEWER"),
+    dashboardController.getRecent
 );
 
 export default router;

@@ -51,3 +51,14 @@ export async function getTrends(req, res){
     }
 }
 
+// get recent activity
+export async function getRecent(req, res){
+    try {
+        const data = await dashboardService.getRecentActivity();
+
+        res.json({ success: true, data });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+}
+
