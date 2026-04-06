@@ -30,7 +30,7 @@ router.get(
     authenticate,
     authorizeRoles("ADMIN", "ANALYST"),
     recordController.getOne
-)
+);
 
 // update -> Admin Only
 router.patch(
